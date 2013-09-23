@@ -1,0 +1,13 @@
+#include <windows.h>
+#include <ntverp.h>
+
+#include "verinfo.h"
+
+#define VER_FILETYPE    VFT_APP
+#define VER_FILESUBTYPE VFT2_UNKNOWN
+#define VER_FILEDESCRIPTION_STR     "Install helper library"
+#define VER_INTERNALNAME_STR        "Install.dll"
+#define VER_ORIGINALFILENAME_STR    "Install.dll"
+
+#include <common.ver>
+

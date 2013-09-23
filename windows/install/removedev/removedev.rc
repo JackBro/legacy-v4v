@@ -1,0 +1,12 @@
+#include <windows.h>
+#include <ntverp.h>
+
+#include "verinfo.h"
+
+#define VER_INTERNALNAME_STR "removedev.exe"
+#define VER_FILEDESCRIPTION_STR "XenSource device removal helper"
+#define VER_ORIGINALFILENAME_STR "removedev.exe"
+#define VER_FILETYPE VFT_APP
+#define VER_FILESUBTYPE 0
+
+#include "common.ver"

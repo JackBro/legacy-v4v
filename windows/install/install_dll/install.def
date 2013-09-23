@@ -1,0 +1,4 @@
+EXPORTS
+ FindExistingDevice
+ IsAmd64
+

@@ -1,0 +1,17 @@
+;
+; Copyright (c) 2006 XenSource, Inc.
+;	All Rights Reserved
+;
+
+NAME xevtchn.sys
+
+EXPORTS
+	xenbus_find_frontend
+	xenbus_find_backend
+	xenbus_read_backend_feature_flag
+	xenbus_read_backend_bin
+	xenbus_read_backend
+
+	XenevtchnSetDeviceUsage
+
+	DllInitialize PRIVATE

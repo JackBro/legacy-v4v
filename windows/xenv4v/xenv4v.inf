@@ -1,0 +1,67 @@
+; 
+;        xenv4v.inf
+;
+;        Citrix Xen interdomain communications driver installation file.
+; 
+; 
+[Version] 
+Signature = "$Windows NT$"
+Class = System
+ClassGUID = {4d36e97d-e325-11ce-bfc1-08002be10318}
+Provider = %Citrix% 
+CatalogFile = xenv4v.cat
+DriverVer = 02/04/2010,1.0.0.0000
+
+[DestinationDirs] 
+DefaultDestDir = 12 
+
+[SourceDisksNames]
+0=%DiskDesc%
+
+[SourceDisksFiles]
+xenv4v.sys=0,, 
+
+[Manufacturer] 
+%Citrix% = Citrix
+
+[Citrix]
+%Xenv4v_Desc% = Xenv4v_Inst,XEN\v4v
+
+[Xenv4v_Inst] 
+CopyFiles = Xenv4v_Inst_Copyfiles
+
+[Xenv4v_Inst_Copyfiles]
+xenv4v.sys
+
+[Xenv4v_Inst.Services] 
+AddService = xenv4v,0x2,Xenv4v_Service,
+
+[Xenv4v_Service] 
+ServiceType = %SERVICE_KERNEL_DRIVER% 
+StartType = %SERVICE_DEMAND_START% 
+ErrorControl = %SERVICE_ERROR_NORMAL% 
+ServiceBinary = %12%\xenv4v.sys
+
+[Strings]
+;  *******Localizable Strings******* 
+Citrix= "Citrix Systems, Inc." 
+DiskDesc = "Citrix Xen V4V Interdomain Communication Disk" 
+Xenv4v_Desc = "Citrix Xen V4V Interdomain Communication"
+Xenv4v_Class_Desc = "Citrix Xen V4V Interdomain Communication Class"
+
+;  *******Non Localizable Strings******* 
+
+SERVICE_BOOT_START = 0x0 
+SERVICE_SYSTEM_START = 0x1 
+SERVICE_AUTO_START = 0x2 
+SERVICE_DEMAND_START = 0x3 
+SERVICE_DISABLED = 0x4 
+
+SERVICE_KERNEL_DRIVER = 0x1 
+SERVICE_ERROR_IGNORE = 0x0 
+SERVICE_ERROR_NORMAL = 0x1 
+SERVICE_ERROR_SEVERE = 0x2 
+SERVICE_ERROR_CRITICAL = 0x3 
+
+REG_EXPAND_SZ = 0x00020000 
+REG_DWORD = 0x00010001 

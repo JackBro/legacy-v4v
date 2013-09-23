@@ -1,0 +1,14 @@
+#include <windows.h>
+#include <ntverp.h>
+
+#include "verinfo.h"
+
+#define VER_FILETYPE VFT_DRV
+#define VER_FILESUBTYPE VFT2_DRV_SYSTEM
+
+#define VER_FILEDESCRIPTION_STR "Xen platform driver"
+#define VER_INTERNALNAME_STR "xevtchn.sys"
+
+#include "common.ver"
+
+#include "xevtchn_msgs.rc"

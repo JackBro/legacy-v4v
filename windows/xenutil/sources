@@ -1,0 +1,42 @@
+TOPDIR=..
+
+include ..\config.mk
+
+TARGETNAME=xenutil
+TARGETTYPE=EXPORT_DRIVER
+INCLUDES = $(INCLUDES)
+
+TARGETLIBS=$(DDK_LIB_PATH)\ntdll.lib \
+           $(DDK_LIB_PATH)\ntstrsafe.lib \
+           $(DDK_LIB_PATH)\aux_klib.lib
+
+C_DEFINES=$(C_DEFINES) -DXENTARGET=\"XENUTIL\" "-DXSAPI="
+
+SOURCES= \
+    xenutl.c \
+    austere.c \
+    logging.c \
+    registry.c \
+    hvm.c \
+    suspend.c \
+    iohole.c \
+    xenbus.c \
+    evtchn.c \
+    debug.c \
+    xenutil.rc
+
+I386_SOURCES= \
+    hypercall.c \
+    i386\asmstubs.c
+
+AMD64_SOURCES= \
+    amd64\asmstubs.asm
+
+!if "$(_BUILDARCH)" == "x86"
+DLLDEF= i386\xenutil.def
+C_DEFINES=$(C_DEFINES) -D__i386__=1
+!else
+DLLDEF= amd64\xenutil.def
+C_DEFINES=$(C_DEFINES) -D__x86_64__=1
+!endif
+
