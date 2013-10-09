@@ -69,8 +69,8 @@ typedef uint16_t domid_t; /* should be defined somewhere else */
 
 typedef struct v4v_iov
 {
-    uint64_t iov_base;
-    uint64_t iov_len;
+	uint64_t iov_base;
+	uint64_t iov_len;
 } V4V_PACKED v4v_iov_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -79,8 +79,8 @@ DEFINE_XEN_GUEST_HANDLE (v4v_iov_t);
 
 typedef struct v4v_addr
 {
-    uint32_t port;
-    domid_t domain;
+	uint32_t port;
+	domid_t domain;
 } V4V_PACKED v4v_addr_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -89,9 +89,9 @@ DEFINE_XEN_GUEST_HANDLE (v4v_addr_t);
 
 typedef struct v4v_viptables_rule
 {
-    struct v4v_addr src;
-    struct v4v_addr dst;
-    uint32_t accept;
+	struct v4v_addr src;
+	struct v4v_addr dst;
+	uint32_t accept;
 } V4V_PACKED v4v_viptables_rule_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -100,16 +100,16 @@ DEFINE_XEN_GUEST_HANDLE (v4v_viptables_rule_t);
 
 typedef struct v4v_ring_id
 {
-    struct v4v_addr addr;
-    domid_t partner;
+	struct v4v_addr addr;
+	domid_t partner;
 } V4V_PACKED v4v_ring_id_t;
 
 #define V4V_VIPTABLES_LIST_SIZE 8
 
 typedef struct v4v_viptables_list
 {
-        struct v4v_viptables_rule rules[V4V_VIPTABLES_LIST_SIZE];
-            uint32_t nb_rules;
+	struct v4v_viptables_rule rules[V4V_VIPTABLES_LIST_SIZE];
+	uint32_t nb_rules;
 } V4V_PACKED v4v_viptables_list_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -123,11 +123,11 @@ DEFINE_XEN_GUEST_HANDLE (v4v_pfn_t);
 
 typedef struct v4v_pfn_list_t
 {
-    uint64_t magic;
-    uint32_t npage;
-    uint32_t pad;
-    uint64_t reserved[3];
-    v4v_pfn_t pages[0];
+	uint64_t magic;
+	uint32_t npage;
+	uint32_t pad;
+	uint64_t reserved[3];
+	v4v_pfn_t pages[0];
 } V4V_PACKED v4v_pfn_list_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -137,13 +137,13 @@ DEFINE_XEN_GUEST_HANDLE (v4v_pfn_list_t);
 
 typedef struct v4v_ring
 {
-    uint64_t magic;
-    struct v4v_ring_id id;      /*Identifies ring_id - xen only looks at this during register/unregister and will fill in id.addr.domain */
-    uint32_t len;               /*length of ring[], must be a multiple of 8 */
-    V4V_VOLATILE uint32_t rx_ptr; /*rx_ptr - modified by domain */
-    V4V_VOLATILE uint32_t tx_ptr; /*tx_ptr - modified by xen */
-    uint64_t reserved[4];
-    V4V_VOLATILE uint8_t ring[0];
+	uint64_t magic;
+	struct v4v_ring_id id;      /*Identifies ring_id - xen only looks at this during register/unregister and will fill in id.addr.domain */
+	uint32_t len;               /*length of ring[], must be a multiple of 8 */
+	V4V_VOLATILE uint32_t rx_ptr; /*rx_ptr - modified by domain */
+	V4V_VOLATILE uint32_t tx_ptr; /*tx_ptr - modified by xen */
+	uint64_t reserved[4];
+	V4V_VOLATILE uint8_t ring[0];
 } V4V_PACKED v4v_ring_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -163,10 +163,10 @@ DEFINE_XEN_GUEST_HANDLE (v4v_ring_t);
 
 typedef struct v4v_ring_data_ent
 {
-    struct v4v_addr ring;
-    uint16_t flags;
-    uint32_t space_required;
-    uint32_t max_message_size;
+	struct v4v_addr ring;
+	uint16_t flags;
+	uint32_t space_required;
+	uint32_t max_message_size;
 } V4V_PACKED v4v_ring_data_ent_t;
 
 #ifdef DEFINE_XEN_GUEST_HANDLE
@@ -202,17 +202,17 @@ DEFINE_XEN_GUEST_HANDLE (v4v_ring_data_t);
 
 struct v4v_stream_header
 {
-    uint32_t flags;
-    uint32_t conid;
+	uint32_t flags;
+	uint32_t conid;
 } V4V_PACKED;
 
 struct v4v_ring_message_header
 {
-    uint32_t len;
-    struct v4v_addr source;
-    uint16_t pad;
-    uint32_t protocol;
-    uint8_t data[0];
+	uint32_t len;
+	struct v4v_addr source;
+	uint16_t pad;
+	uint32_t protocol;
+	uint8_t data[0];
 
 } V4V_PACKED;
 
@@ -288,11 +288,10 @@ struct v4v_ring_message_header
 #if !defined(V4V_EXCLUDE_INTERNAL)
 
 #if !defined(__GNUC__)
-static __inline void
-mb (void)
+static __inline void mb (void)
 {
-    _mm_mfence ();
-    _ReadWriteBarrier ();
+	_mm_mfence ();
+	_ReadWriteBarrier ();
 }
 #endif
 
@@ -301,11 +300,11 @@ mb (void)
 static V4V_INLINE uint32_t
 v4v_ring_bytes_to_read (volatile struct v4v_ring *r)
 {
-    int32_t ret;
-    ret = r->tx_ptr - r->rx_ptr;
-    if (ret >= 0)
-        return ret;
-    return (uint32_t) (r->len + ret);
+	int32_t ret;
+	ret = r->tx_ptr - r->rx_ptr;
+	if (ret >= 0)
+		return ret;
+	return (uint32_t) (r->len + ret);
 }
 
 
@@ -316,102 +315,85 @@ v4v_ring_bytes_to_read (volatile struct v4v_ring *r)
 
 static ssize_t
 v4v_copy_out (struct v4v_ring *r, struct v4v_addr *from, uint32_t * protocol,
-              void *_buf, size_t t, int consume)
+		void *_buf, size_t t, int consume)
 {
-    volatile struct v4v_ring_message_header *mh;
-    /* unnecessary cast from void * required by MSVC compiler */
-    uint8_t *buf = (uint8_t *) _buf; 
-    uint32_t btr = v4v_ring_bytes_to_read (r);
-    uint32_t rxp = r->rx_ptr;
-    uint32_t bte;
-    uint32_t len;
-    ssize_t ret;
+	volatile struct v4v_ring_message_header *mh;
+	/* unnecessary cast from void * required by MSVC compiler */
+	uint8_t *buf = (uint8_t *) _buf; 
+	uint32_t btr = v4v_ring_bytes_to_read (r);
+	uint32_t rxp = r->rx_ptr;
+	uint32_t bte;
+	uint32_t len;
+	ssize_t ret;
 
 
-    if (btr < sizeof (*mh))
-        return -1;
+	if (btr < sizeof (*mh))
+		return -1;
 
-/*Becuase the message_header is 128 bits long and the ring is 128 bit aligned, we're gaurunteed never to wrap*/
-    mh = (volatile struct v4v_ring_message_header *) &r->ring[r->rx_ptr];
+	/*Becuase the message_header is 128 bits long and the ring is 128 bit aligned, we're gaurunteed never to wrap*/
+	mh = (volatile struct v4v_ring_message_header *) &r->ring[r->rx_ptr];
 
-    len = mh->len;
-    if (btr < len)
-        return -1;
+	len = mh->len;
+	if (btr < len)
+		return -1;
 
+	if (from)
 #if defined(__GNUC__) 
-    if (from)
-        *from = mh->source;
+		*from = mh->source;
 #else
 	/* MSVC can't do the above */
-    if (from)
-	memcpy((void *) from, (void *) &(mh->source), sizeof(struct v4v_addr));
+		memcpy((void *) from, (void *) &(mh->source), sizeof(struct v4v_addr));
 #endif
 
-    if (protocol)
-        *protocol = mh->protocol;
+	if (protocol)
+		*protocol = mh->protocol;
 
-    rxp += sizeof (*mh);
-    if (rxp == r->len)
-        rxp = 0;
-    len -= sizeof (*mh);
-    ret = len;
+	rxp += sizeof (*mh);
+	if (rxp == r->len)
+		rxp = 0;
+	len -= sizeof (*mh);
+	ret = len;
 
-    bte = r->len - rxp;
+	bte = r->len - rxp;
 
-    if (bte < len)
-      {
-          if (t < bte)
-            {
-                if (buf)
-                  {
-                      memcpy (buf, (void *) &r->ring[rxp], t);
-                      buf += t;
-                  }
+	if (bte < len) {
+		if (t < bte) {
+			if (buf) {
+				memcpy (buf, (void *) &r->ring[rxp], t);
+				buf += t;
+			}
 
-                rxp = 0;
-                len -= bte;
-                t = 0;
-            }
-          else
-            {
-                if (buf)
-                  {
-                      memcpy (buf, (void *) &r->ring[rxp], bte);
-                      buf += bte;
-                  }
-                rxp = 0;
-                len -= bte;
-                t -= bte;
-            }
-      }
+			rxp = 0;
+			len -= bte;
+			t = 0;
+		} else {
+			if (buf) {
+				memcpy (buf, (void *) &r->ring[rxp], bte);
+				buf += bte;
+			}
+			rxp = 0;
+			len -= bte;
+			t -= bte;
+		}
+	}
 
-    if (buf && t)
-        memcpy (buf, (void *) &r->ring[rxp], (t < len) ? t : len);
+	if (buf && t)
+		memcpy (buf, (void *) &r->ring[rxp], (t < len) ? t : len);
 
 
-    rxp += V4V_ROUNDUP (len);
-    if (rxp == r->len)
-        rxp = 0;
+	rxp += V4V_ROUNDUP (len);
+	if (rxp == r->len)
+		rxp = 0;
 
-    mb ();
+	mb ();
 
-    if (consume)
-        r->rx_ptr = rxp;
+	if (consume)
+		r->rx_ptr = rxp;
 
 
-    return ret;
+	return ret;
 }
 
 #endif /* V4V_EXCLUDE_INTERNAL */
 
 #endif /* __V4V_H__ */
-
-/*
- * Local variables:
- * mode: C
- * c-set-style: "BSD"
- * c-basic-offset: 4
- * tab-width: 4
- * indent-tabs-mode: nil
- * End:
- */
