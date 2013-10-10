@@ -168,8 +168,7 @@ do_spin_lock (v4v_spinlock_t * l, int line)
 
 }
 
-	static void
-do_spin_unlock (v4v_spinlock_t * l, int line)
+static void do_spin_unlock (v4v_spinlock_t * l, int line)
 {
 
 	if (atomic_read (&l->lock) != 1)
@@ -279,8 +278,6 @@ struct v4v_private
 	atomic_t pending_recv_count;
 	int pending_error;
 	int full;
-
-
 
 	int send_blocked;
 	int rx;
@@ -905,8 +902,7 @@ static struct ring * find_ring_by_id (struct v4v_ring_id *id)
 }
 
 /*caller must hold ring_lock*/
-	struct ring *
-find_ring_by_id_type (struct v4v_ring_id *id, v4v_rtype t)
+struct ring * find_ring_by_id_type (struct v4v_ring_id *id, v4v_rtype t)
 {
 	struct ring *r;
 	list_for_each_entry (r, &ring_list, node)
